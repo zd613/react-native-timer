@@ -2,10 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import RoundButton from './src/components/RoundButton';
+import * as yup from "yup"
+
+const schema=yup.object().shape({
+  time:yup.number().required().positive().integer()
+})
 
 export default function App() {
   const [isRunning,setIsRunning]=useState(false)
   const [inputValue,setInputVaelu]=useState('0')
+  const [inputError,setInputError]=useState(false)
+
   const [seconds,setSeconds]=useState(0)
 
 
@@ -43,16 +50,26 @@ export default function App() {
   // キャンセルボタンクリック時
   const handleCancelClick=()=>{
     setIsRunning(false)
-    setSeconds(0);
+    setSeconds(parseInt(inputValue));
     clearInterval(intervalId)
   }
-  const handleInputChange=(e:any)=>{
+
+  // 入力が変更した時
+  const handleInputChange=async(e:any)=>{
+    setInputError(false)
     const v=e.target.value
     setInputVaelu(v)
 
-    // TODO: validation
+    // validation
+    const valid=await schema.isValid({
+      time: v
+    })
+    if(!valid){
+      setInputError(true)
+      return
+    }
 
-    setSeconds(e.target.value)
+    setSeconds(v)
   }
 
   return (
@@ -61,9 +78,12 @@ export default function App() {
       {!isRunning&&(
         <TextInput value={inputValue}  onChange={handleInputChange}  keyboardType="numeric"  style={styles.inputField} />
       )}
+      {(!isRunning&&inputError ) &&(
+        <Text style={{color:'red'}}>整数値を入力してください。</Text>
+      )}
 
       {isRunning && (
-        <Text>  {seconds} s</Text>
+        <Text style={{fontSize:32}}>  {seconds} s</Text>
       )}
 
 
