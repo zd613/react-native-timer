@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TextInput, TextInputBase, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import RoundButton from './src/components/RoundButton';
 
 export default function App() {
