@@ -15,11 +15,6 @@ export default function App() {
 
   const [seconds,setSeconds]=useState(0)
 
-
-  const handlePauseClick=()=>{
-    setIsRunning(false)
-  }
-
   useEffect(()=>{
     if(isRunning){
 
@@ -88,11 +83,7 @@ export default function App() {
 
 
 
-      <View style={styles.buttonContainer}>
-        <RoundButton title='キャンセル' onPress={handleCancelClick} />
-
-        {isRunning?<RoundButton title='一時停止' onPress={handlePauseClick}/>:<RoundButton title='開始' onPress={handleStartClick} />}
-      </View>
+      {isRunning? <RoundButton title='キャンセル' onPress={handleCancelClick} /> : <RoundButton title='開始' onPress={handleStartClick} />}
 
       <StatusBar style="auto" />
     </View>
@@ -106,13 +97,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonContainer:{
-    flexDirection:'row',
-  },
   inputField:{
     borderWidth:2,
     borderColor:'black',
     borderRadius:4,
-    
   }
 });
