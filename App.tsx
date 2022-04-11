@@ -51,7 +51,6 @@ export default function App() {
 
   // 入力が変更した時
   const handleInputChange=async(text:string)=>{
-    console.log("changee")
     setInputError(false)
 
     setInputValue(text)
